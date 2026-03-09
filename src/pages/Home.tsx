@@ -1,46 +1,68 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Gamepad2, UserPlus, LogIn, Trophy, Settings, Sparkles } from "lucide-react";
+import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy } from "lucide-react";
+import { levels, getUnlockedLevel } from "@/lib/levels";
+import { useState } from "react";
 
-const navItems = [
-  { to: "/signup", label: "Create Account", icon: UserPlus },
-  { to: "/login", label: "Login", icon: LogIn },
-  { to: "/game", label: "Play Tap Challenge", icon: Gamepad2 },
-  { to: "/leaderboard", label: "Leaderboard", icon: Trophy },
-  { to: "/settings", label: "Settings", icon: Settings },
-];
+const Home = () => {
+  const [unlockedLevel] = useState(getUnlockedLevel);
 
-const quizTopics = ["Math", "English", "Hindi", "EVS", "Computer Science", "AI"];
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
+      <div className="flex items-center gap-3">
+        <Sparkles className="h-10 w-10 text-primary" />
+        <h1 className="text-3xl md:text-5xl text-primary">SPC Minigames</h1>
+      </div>
+      <p className="text-lg text-muted-foreground max-w-md text-center">
+        Complete each level to unlock the next challenge!
+      </p>
 
-const Home = () => (
-  <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
-    <div className="flex items-center gap-3">
-      <Sparkles className="h-10 w-10 text-primary" />
-      <h1 className="text-3xl md:text-5xl text-primary">SPC Minigames</h1>
-    </div>
-    <p className="text-lg text-muted-foreground max-w-md">Challenge yourself with fun minigames and quizzes!</p>
+      <div className="flex flex-col gap-3 w-full max-w-md">
+        {levels.map((level) => {
+          const isUnlocked = level.id <= unlockedLevel;
+          return isUnlocked ? (
+            <Link key={level.id} to={level.path} className="w-full">
+              <Button
+                variant="outline"
+                className="w-full h-14 gap-2 text-base justify-start shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-button)] transition-shadow"
+              >
+                <Unlock className="h-5 w-5 text-secondary" />
+                Level {level.id} – {level.title}
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              key={level.id}
+              variant="outline"
+              disabled
+              className="w-full h-14 gap-2 text-base justify-start opacity-50"
+            >
+              <Lock className="h-5 w-5" />
+              Level {level.id} – {level.title}
+            </Button>
+          );
+        })}
+      </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-md">
-      {navItems.map(({ to, label, icon: Icon }) => (
-        <Link key={to} to={to} className="w-full">
-          <Button variant="outline" className="w-full h-14 gap-2 text-base shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-button)] transition-shadow">
-            <Icon className="h-5 w-5" /> {label}
+      <div className="flex gap-3 mt-4">
+        <Link to="/signup">
+          <Button variant="ghost" size="sm" className="gap-1">
+            <UserPlus className="h-4 w-4" /> Signup
           </Button>
         </Link>
-      ))}
-    </div>
-
-    <div className="mt-8 rounded-lg border bg-card p-6 max-w-md w-full shadow-[var(--shadow-card)]">
-      <h2 className="text-xl mb-3 text-secondary">Future Challenges</h2>
-      <p className="text-muted-foreground mb-4">🍎 Apple Collector: Collect 500 apples in 5 minutes.</p>
-      <h3 className="text-lg mb-2 text-accent font-display">Olympiad Quizzes</h3>
-      <div className="flex flex-wrap gap-2">
-        {quizTopics.map((t) => (
-          <span key={t} className="rounded-full border bg-muted px-3 py-1 text-sm text-muted-foreground">{t}</span>
-        ))}
+        <Link to="/login">
+          <Button variant="ghost" size="sm" className="gap-1">
+            <LogIn className="h-4 w-4" /> Login
+          </Button>
+        </Link>
+        <Link to="/leaderboard">
+          <Button variant="ghost" size="sm" className="gap-1">
+            <Trophy className="h-4 w-4" /> Leaderboard
+          </Button>
+        </Link>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Home;
