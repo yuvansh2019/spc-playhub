@@ -12,6 +12,8 @@ import AppleCollector from "./pages/AppleCollector";
 import GameBuilder from "./pages/GameBuilder";
 import SPCGameMaker from "./pages/SPCGameMaker";
 import Leaderboard from "./pages/Leaderboard";
+import OlympiadQuizzes from "./pages/OlympiadQuizzes";
+import QuizPlay from "./pages/QuizPlay";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +34,8 @@ const App = () => (
           <Route path="/game-builder" element={<GameBuilder />} />
           <Route path="/spc-game-maker" element={<SPCGameMaker />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/quizzes" element={<OlympiadQuizzes />} />
+          <Route path="/quiz/:subjectId" element={<QuizPlay />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

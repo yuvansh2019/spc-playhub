@@ -17,7 +17,7 @@ const GAME_HEIGHT = 500;
 const BASKET_WIDTH = 60;
 const APPLE_SIZE = 28;
 const TARGET = 500;
-const TIME_LIMIT = 300; // 5 minutes
+const TIME_LIMIT = 300;
 
 const AppleCollector = () => {
   const [started, setStarted] = useState(false);
@@ -32,18 +32,13 @@ const AppleCollector = () => {
   const lastSpawn = useRef(0);
   const appleId = useRef(0);
   const scoreRef = useRef(0);
+  const basketXRef = useRef(basketX);
   const { toast } = useToast();
   const navigate = useNavigate();
+
   const unlocked = getUnlockedLevel() >= 3;
 
-  if (!unlocked) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-6">
-        <p className="text-destructive text-xl">🔒 Complete Level 2 first!</p>
-        <Link to="/"><Button variant="outline">Back to Home</Button></Link>
-      </div>
-    );
-  }
+  basketXRef.current = basketX;
 
   const handleComplete = useCallback(() => {
     setCompleted(true);
@@ -76,7 +71,6 @@ const AppleCollector = () => {
     let applesState: Apple[] = [];
 
     const loop = (timestamp: number) => {
-      // Spawn apple every 200ms
       if (timestamp - lastSpawn.current > 200) {
         lastSpawn.current = timestamp;
         const newApple: Apple = {
@@ -88,11 +82,9 @@ const AppleCollector = () => {
         applesState = [...applesState, newApple];
       }
 
-      // Move apples
       applesState = applesState
         .map((a) => ({ ...a, y: a.y + a.speed }))
         .filter((a) => {
-          // Check catch
           const basketLeft = basketXRef.current;
           const basketRight = basketLeft + BASKET_WIDTH;
           const appleCenter = a.x + APPLE_SIZE / 2;
@@ -109,7 +101,6 @@ const AppleCollector = () => {
             }
             return false;
           }
-          // Remove if fallen past
           return a.y < GAME_HEIGHT + 10;
         });
 
@@ -121,10 +112,6 @@ const AppleCollector = () => {
     return () => cancelAnimationFrame(animRef.current);
   }, [started, completed, gameOver, handleComplete]);
 
-  const basketXRef = useRef(basketX);
-  basketXRef.current = basketX;
-
-  // Mouse/touch control
   const handleMove = useCallback((clientX: number) => {
     if (!gameRef.current) return;
     const rect = gameRef.current.getBoundingClientRect();
@@ -138,6 +125,15 @@ const AppleCollector = () => {
     const sec = s % 60;
     return `${m}:${sec.toString().padStart(2, "0")}`;
   };
+
+  if (!unlocked) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 p-6">
+        <p className="text-destructive text-xl">🔒 Complete Level 2 first!</p>
+        <Link to="/"><Button variant="outline">Back to Home</Button></Link>
+      </div>
+    );
+  }
 
   if (!started) {
     return (
@@ -197,7 +193,6 @@ const AppleCollector = () => {
         onMouseMove={(e) => handleMove(e.clientX)}
         onTouchMove={(e) => handleMove(e.touches[0].clientX)}
       >
-        {/* Apples */}
         {apples.map((a) => (
           <div
             key={a.id}
@@ -208,7 +203,6 @@ const AppleCollector = () => {
           </div>
         ))}
 
-        {/* Basket */}
         <div
           className="absolute bottom-0 text-3xl text-center pointer-events-none"
           style={{ left: basketX, width: BASKET_WIDTH, height: 30 }}

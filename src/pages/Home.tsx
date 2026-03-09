@@ -60,6 +60,11 @@ const Home = () => {
             <Trophy className="h-4 w-4" /> Leaderboard
           </Button>
         </Link>
+        <Link to="/quizzes">
+          <Button variant="ghost" size="sm" className="gap-1">
+            <BookOpen className="h-4 w-4" /> Olympiad Quizzes
+          </Button>
+        </Link>
       </div>
     </div>
   );
