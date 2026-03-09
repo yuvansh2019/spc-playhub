@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy } from "lucide-react";
+import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy, BookOpen } from "lucide-react";
 import { levels, getUnlockedLevel } from "@/lib/levels";
 import { useState } from "react";
 
@@ -58,6 +58,11 @@ const Home = () => {
         <Link to="/leaderboard">
           <Button variant="ghost" size="sm" className="gap-1">
             <Trophy className="h-4 w-4" /> Leaderboard
+          </Button>
+        </Link>
+        <Link to="/quizzes">
+          <Button variant="ghost" size="sm" className="gap-1">
+            <BookOpen className="h-4 w-4" /> Olympiad Quizzes
           </Button>
         </Link>
       </div>
