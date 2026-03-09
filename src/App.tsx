@@ -7,8 +7,11 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Game from "./pages/Game";
+import HardMath from "./pages/HardMath";
+import AppleCollector from "./pages/AppleCollector";
+import GameBuilder from "./pages/GameBuilder";
+import SPCGameMaker from "./pages/SPCGameMaker";
 import Leaderboard from "./pages/Leaderboard";
-import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,8 +27,11 @@ const App = () => (
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/game" element={<Game />} />
+          <Route path="/hard-math" element={<HardMath />} />
+          <Route path="/apple-collector" element={<AppleCollector />} />
+          <Route path="/game-builder" element={<GameBuilder />} />
+          <Route path="/spc-game-maker" element={<SPCGameMaker />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
