@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy } from "lucide-react";
+import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy, BookOpen } from "lucide-react";
 import { levels, getUnlockedLevel } from "@/lib/levels";
 import { useState } from "react";
 
