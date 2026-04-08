@@ -36,10 +36,12 @@ const GameBuilder = () => {
       <p className="text-xl text-muted-foreground">Game Builder Coming Soon</p>
 
       {!completed ? (
-        <Button onClick={complete} variant="secondary" className="mt-4">
-          Complete Level (Test)
-        </Button>
-        <SkipLevel nextLevel={5} nextPath="/spc-game-maker" />
+        <>
+          <Button onClick={complete} variant="secondary" className="mt-4">
+            Complete Level (Test)
+          </Button>
+          <SkipLevel nextLevel={5} nextPath="/spc-game-maker" />
+        </>
       ) : (
         <div className="flex flex-col items-center gap-4">
           <p className="text-2xl text-secondary">✅ Level Complete!</p>
