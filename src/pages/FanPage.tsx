@@ -22,9 +22,9 @@ const FanPage = () => {
 
         <div className="bg-card border rounded-lg p-6 space-y-3 shadow-lg">
           <div className="flex items-center justify-center gap-2">
-            <Star className="h-5 w-5 text-yellow-500" />
+            <Star className="h-5 w-5 text-accent" />
             <h2 className="text-xl font-semibold text-primary">About SPC Games</h2>
-            <Star className="h-5 w-5 text-yellow-500" />
+            <Star className="h-5 w-5 text-accent" />
           </div>
           <p className="text-muted-foreground">
             SPC Minigames is the ultimate challenge platform with tap challenges, 
