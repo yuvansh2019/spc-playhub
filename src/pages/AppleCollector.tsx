@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { unlockLevel, getUnlockedLevel } from "@/lib/levels";
+import SkipLevel from "@/components/SkipLevel";
 
 interface Apple {
   id: number;
@@ -145,6 +146,7 @@ const AppleCollector = () => {
         <p className="text-muted-foreground">🍎 Collect {TARGET} apples in 5 minutes!</p>
         <p className="text-sm text-muted-foreground">Move your mouse/finger to catch falling apples with the basket.</p>
         <Button onClick={() => setStarted(true)} size="lg">Start Game</Button>
+        <SkipLevel nextLevel={4} nextPath="/game-builder" />
       </div>
     );
   }
