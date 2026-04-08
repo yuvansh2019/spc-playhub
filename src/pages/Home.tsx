@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy, BookOpen } from "lucide-react";
+import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy, BookOpen, Gamepad2, Heart } from "lucide-react";
 import { levels, getUnlockedLevel } from "@/lib/levels";
 import { useState } from "react";
 
 const Home = () => {
   const [unlockedLevel] = useState(getUnlockedLevel);
+  const allComplete = unlockedLevel >= 6;
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
@@ -44,7 +45,16 @@ const Home = () => {
         })}
       </div>
 
-      <div className="flex gap-3 mt-4">
+      {/* SPC Runner - unlocked after all levels */}
+      {allComplete && (
+        <Link to="/runner" className="w-full max-w-md">
+          <Button className="w-full h-14 gap-2 text-base" style={{ background: "var(--gradient-hero)" }}>
+            <Gamepad2 className="h-5 w-5" /> 🎮 Play SPC Runner (Official Game)
+          </Button>
+        </Link>
+      )}
+
+      <div className="flex flex-wrap gap-3 mt-4 justify-center">
         <Link to="/signup">
           <Button variant="ghost" size="sm" className="gap-1">
             <UserPlus className="h-4 w-4" /> Signup
@@ -63,6 +73,11 @@ const Home = () => {
         <Link to="/quizzes">
           <Button variant="ghost" size="sm" className="gap-1">
             <BookOpen className="h-4 w-4" /> Olympiad Quizzes
+          </Button>
+        </Link>
+        <Link to="/fan">
+          <Button variant="ghost" size="sm" className="gap-1">
+            <Heart className="h-4 w-4" /> Fan Page
           </Button>
         </Link>
       </div>
