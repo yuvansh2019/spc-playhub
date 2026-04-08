@@ -14,6 +14,9 @@ import SPCGameMaker from "./pages/SPCGameMaker";
 import Leaderboard from "./pages/Leaderboard";
 import OlympiadQuizzes from "./pages/OlympiadQuizzes";
 import QuizPlay from "./pages/QuizPlay";
+import EndlessRunner from "./pages/EndlessRunner";
+import CheatPanel from "./pages/CheatPanel";
+import FanPage from "./pages/FanPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +39,9 @@ const App = () => (
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/quizzes" element={<OlympiadQuizzes />} />
           <Route path="/quiz/:subjectId" element={<QuizPlay />} />
+          <Route path="/runner" element={<EndlessRunner />} />
+          <Route path="/cheat" element={<CheatPanel />} />
+          <Route path="/fan" element={<FanPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
