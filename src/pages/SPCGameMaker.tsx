@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { getUnlockedLevel } from "@/lib/levels";
+import { getUnlockedLevel, unlockLevel } from "@/lib/levels";
+import SkipLevel from "@/components/SkipLevel";
 
 const SPCGameMaker = () => {
   const unlocked = getUnlockedLevel() >= 5;
@@ -23,6 +24,7 @@ const SPCGameMaker = () => {
       <h2 className="text-3xl text-primary">Level 5 – SPC Game Maker</h2>
       <p className="text-xl text-muted-foreground">Create your own game to complete the final challenge.</p>
       <p className="text-sm text-muted-foreground italic">Coming soon!</p>
+      <SkipLevel nextLevel={6} nextPath="/" />
     </div>
   );
 };

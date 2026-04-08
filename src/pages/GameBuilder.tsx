@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { unlockLevel, getUnlockedLevel } from "@/lib/levels";
+import SkipLevel from "@/components/SkipLevel";
 
 const GameBuilder = () => {
   const [completed, setCompleted] = useState(false);
@@ -38,6 +39,7 @@ const GameBuilder = () => {
         <Button onClick={complete} variant="secondary" className="mt-4">
           Complete Level (Test)
         </Button>
+        <SkipLevel nextLevel={5} nextPath="/spc-game-maker" />
       ) : (
         <div className="flex flex-col items-center gap-4">
           <p className="text-2xl text-secondary">✅ Level Complete!</p>

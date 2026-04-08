@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import SkipLevel from "@/components/SkipLevel";
 
 const Game = () => {
   const [score, setScore] = useState(0);
@@ -103,6 +104,7 @@ const Game = () => {
           <Button onClick={reset} variant="outline" className="w-full">Play Again</Button>
         </div>
       )}
+      {!finished && <SkipLevel nextLevel={2} nextPath="/hard-math" />}
     </div>
   );
 };
