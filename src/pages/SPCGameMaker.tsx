@@ -16,7 +16,7 @@ const CHEAT_PIN = "1111";
 
 interface ProjectFile {
   name: string;
-  content: string;
+  content?: string;
   type: "file" | "folder";
   children?: ProjectFile[];
   open?: boolean;
