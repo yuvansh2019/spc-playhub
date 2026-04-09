@@ -121,56 +121,7 @@ const GameBuilder = () => {
     setObjects(prev => prev.map(o => o.id === selected ? { ...o, ...patch } : o));
   };
 
-  // Drawing
-  const draw = useCallback((objs: GameObject[]) => {
-    const ctx = canvasRef.current?.getContext("2d");
-    if (!ctx) return;
-    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-
-    // Grid
-    ctx.strokeStyle = "hsl(var(--border))";
-    ctx.lineWidth = 0.5;
-    for (let x = 0; x < CANVAS_W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, CANVAS_H); ctx.stroke(); }
-    for (let y = 0; y < CANVAS_H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CANVAS_W, y); ctx.stroke(); }
-
-    objs.forEach(o => {
-      ctx.fillStyle = o.color;
-      if (o.type === "circle" || o.type === "coin") {
-        ctx.beginPath();
-        ctx.arc(o.x + o.w / 2, o.y + o.h / 2, o.w / 2, 0, Math.PI * 2);
-        ctx.fill();
-      } else if (o.type === "triangle") {
-        ctx.beginPath();
-        ctx.moveTo(o.x + o.w / 2, o.y);
-        ctx.lineTo(o.x + o.w, o.y + o.h);
-        ctx.lineTo(o.x, o.y + o.h);
-        ctx.closePath();
-        ctx.fill();
-      } else {
-        ctx.fillRect(o.x, o.y, o.w, o.h);
-      }
-
-      // Selection highlight
-      if (o.id === selected && !playing) {
-        ctx.strokeStyle = "#fff";
-        ctx.lineWidth = 2;
-        ctx.setLineDash([4, 4]);
-        ctx.strokeRect(o.x - 2, o.y - 2, o.w + 4, o.h + 4);
-        ctx.setLineDash([]);
-      }
-
-      // Label
-      ctx.fillStyle = "#fff";
-      ctx.font = "10px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(o.label, o.x + o.w / 2, o.y - 4);
-    });
-  }, [selected, playing]);
-
-  // Editor drawing
-  useEffect(() => {
-    if (!playing) draw(objects);
-  }, [objects, selected, playing, draw]);
+  // (draw and useEffect moved above early return)
 
   // Play mode
   const startPlay = () => {
