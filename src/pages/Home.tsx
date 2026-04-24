@@ -64,17 +64,32 @@ const Home = () => {
         </Link>
       )}
 
+      {user && (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <User className="h-4 w-4" /> Signed in as <strong className="text-foreground">{displayName ?? user.email}</strong>
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-3 mt-4 justify-center">
-        <Link to="/signup">
-          <Button variant="ghost" size="sm" className="gap-1">
-            <UserPlus className="h-4 w-4" /> Signup
+        {!loading && !user && (
+          <>
+            <Link to="/signup">
+              <Button variant="ghost" size="sm" className="gap-1">
+                <UserPlus className="h-4 w-4" /> Signup
+              </Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="ghost" size="sm" className="gap-1">
+                <LogIn className="h-4 w-4" /> Login
+              </Button>
+            </Link>
+          </>
+        )}
+        {user && (
+          <Button variant="ghost" size="sm" className="gap-1" onClick={signOut}>
+            <LogOut className="h-4 w-4" /> Logout
           </Button>
-        </Link>
-        <Link to="/login">
-          <Button variant="ghost" size="sm" className="gap-1">
-            <LogIn className="h-4 w-4" /> Login
-          </Button>
-        </Link>
+        )}
         <Link to="/leaderboard">
           <Button variant="ghost" size="sm" className="gap-1">
             <Trophy className="h-4 w-4" /> Leaderboard
