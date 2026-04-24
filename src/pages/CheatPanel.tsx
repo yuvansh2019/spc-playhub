@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Lock, Unlock, Edit, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const CHEAT_PIN = "1111";
+const CHEAT_PIN = "1108";
 
 const CheatPanel = () => {
   const [phase, setPhase] = useState<"locked" | "pin" | "panel" | "edit">("locked");

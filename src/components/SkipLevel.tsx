@@ -18,7 +18,7 @@ const SkipLevel = ({ nextLevel, nextPath }: SkipLevelProps) => {
   const navigate = useNavigate();
 
   const handlePinSubmit = () => {
-    if (pin === "1111") {
+    if (pin === "1108") {
       unlockLevel(nextLevel);
       setUnlocked(true);
     } else {
