@@ -45,6 +45,7 @@ const App = () => (
             <Route path="/runner" element={<EndlessRunner />} />
             <Route path="/cheat" element={<CheatPanel />} />
             <Route path="/fan" element={<FanPage />} />
+            <Route path="/admin" element={<AdminConsole />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
