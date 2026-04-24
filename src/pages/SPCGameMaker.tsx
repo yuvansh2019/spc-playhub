@@ -12,7 +12,7 @@ import { getUnlockedLevel, unlockLevel } from "@/lib/levels";
 import SkipLevel from "@/components/SkipLevel";
 import { useToast } from "@/hooks/use-toast";
 
-const CHEAT_PIN = "1111";
+const CHEAT_PIN = "1108";
 
 interface ProjectFile {
   name: string;
