@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -27,23 +28,25 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/hard-math" element={<HardMath />} />
-          <Route path="/apple-collector" element={<AppleCollector />} />
-          <Route path="/game-builder" element={<GameBuilder />} />
-          <Route path="/spc-game-maker" element={<SPCGameMaker />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/quizzes" element={<OlympiadQuizzes />} />
-          <Route path="/quiz/:subjectId" element={<QuizPlay />} />
-          <Route path="/runner" element={<EndlessRunner />} />
-          <Route path="/cheat" element={<CheatPanel />} />
-          <Route path="/fan" element={<FanPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/game" element={<Game />} />
+            <Route path="/hard-math" element={<HardMath />} />
+            <Route path="/apple-collector" element={<AppleCollector />} />
+            <Route path="/game-builder" element={<GameBuilder />} />
+            <Route path="/spc-game-maker" element={<SPCGameMaker />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/quizzes" element={<OlympiadQuizzes />} />
+            <Route path="/quiz/:subjectId" element={<QuizPlay />} />
+            <Route path="/runner" element={<EndlessRunner />} />
+            <Route path="/cheat" element={<CheatPanel />} />
+            <Route path="/fan" element={<FanPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

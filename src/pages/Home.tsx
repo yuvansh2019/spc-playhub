@@ -1,12 +1,22 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy, BookOpen, Gamepad2, Heart } from "lucide-react";
-import { levels, getUnlockedLevel } from "@/lib/levels";
-import { useState } from "react";
+import { Sparkles, Lock, Unlock, UserPlus, LogIn, LogOut, Trophy, BookOpen, Gamepad2, Heart, User } from "lucide-react";
+import { levels, getUnlockedLevel, loadProgressFromCloud } from "@/lib/levels";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Home = () => {
-  const [unlockedLevel] = useState(getUnlockedLevel);
+  const [unlockedLevel, setUnlockedLevel] = useState(getUnlockedLevel);
+  const { user, displayName, signOut, loading } = useAuth();
   const allComplete = unlockedLevel >= 6;
+
+  useEffect(() => {
+    if (user) {
+      loadProgressFromCloud().then((lvl) => {
+        if (lvl) setUnlockedLevel(lvl);
+      });
+    }
+  }, [user]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
