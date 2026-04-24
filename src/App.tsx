@@ -18,6 +18,7 @@ import QuizPlay from "./pages/QuizPlay";
 import EndlessRunner from "./pages/EndlessRunner";
 import CheatPanel from "./pages/CheatPanel";
 import FanPage from "./pages/FanPage";
+import AdminConsole from "./pages/AdminConsole";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/runner" element={<EndlessRunner />} />
             <Route path="/cheat" element={<CheatPanel />} />
             <Route path="/fan" element={<FanPage />} />
+            <Route path="/admin" element={<AdminConsole />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
