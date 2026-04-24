@@ -1,11 +1,20 @@
-import { getLeaderboard } from "@/lib/db";
+import { useEffect, useState } from "react";
+import { getLeaderboard, LeaderboardEntry } from "@/lib/db";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Trophy } from "lucide-react";
 
 const medals = ["🥇", "🥈", "🥉"];
 
 const Leaderboard = () => {
-  const data = getLeaderboard();
+  const [data, setData] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getLeaderboard().then((d) => {
+      setData(d);
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6">
@@ -17,7 +26,9 @@ const Leaderboard = () => {
         <h2 className="text-3xl text-primary">Leaderboard</h2>
       </div>
 
-      {data.length === 0 ? (
+      {loading ? (
+        <p className="text-muted-foreground">Loading...</p>
+      ) : data.length === 0 ? (
         <p className="text-muted-foreground">No scores yet. Be the first!</p>
       ) : (
         <div className="w-full max-w-md space-y-2">
@@ -26,7 +37,7 @@ const Leaderboard = () => {
               <span className="text-lg">
                 {medals[i] || `#${i + 1}`} <strong>{entry.name}</strong>
               </span>
-              <span className="font-display text-lg text-secondary">{entry.score}</span>
+              <span className="font-display text-lg text-secondary">{entry.score.toLocaleString()}</span>
             </div>
           ))}
         </div>
