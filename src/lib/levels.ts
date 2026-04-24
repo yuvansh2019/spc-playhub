@@ -1,3 +1,5 @@
+import { supabase } from "@/integrations/supabase/client";
+
 export interface Level {
   id: number;
   title: string;
@@ -22,4 +24,31 @@ export function unlockLevel(level: number) {
   if (level > current) {
     localStorage.setItem("level", String(level));
   }
+  syncProgressToCloud(Math.max(level, current));
+}
+
+async function syncProgressToCloud(level: number) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+  await supabase
+    .from("player_progress")
+    .upsert({ user_id: user.id, unlocked_level: level, updated_at: new Date().toISOString() });
+}
+
+export async function loadProgressFromCloud(): Promise<number | null> {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data } = await supabase
+    .from("player_progress")
+    .select("unlocked_level")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (data?.unlocked_level) {
+    const local = getUnlockedLevel();
+    const merged = Math.max(data.unlocked_level, local);
+    localStorage.setItem("level", String(merged));
+    if (merged > data.unlocked_level) syncProgressToCloud(merged);
+    return merged;
+  }
+  return null;
 }

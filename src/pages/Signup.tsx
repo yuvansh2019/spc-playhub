@@ -1,34 +1,44 @@
 import { useState } from "react";
-import { signup, verify } from "@/lib/db";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState("");
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSignup = () => {
-    if (!email || !password) {
-      toast({ title: "Error", description: "Please fill in all fields", variant: "destructive" });
+  const handleSignup = async () => {
+    if (!email || !password || !displayName) {
+      toast({ title: "Please fill in all fields", variant: "destructive" });
       return;
     }
-    const result = signup(email, password);
-    setToken(result.token);
-    toast({ title: "Signup successful!", description: "Click the verify button below." });
-  };
-
-  const handleVerify = () => {
-    if (token && verify(token)) {
-      setToken(null);
-      toast({ title: "Verified!", description: "You can now login." });
-    } else {
-      toast({ title: "Error", description: "Invalid token", variant: "destructive" });
+    if (password.length < 6) {
+      toast({ title: "Password must be at least 6 characters", variant: "destructive" });
+      return;
     }
+    setLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+        data: { display_name: displayName },
+      },
+    });
+    setLoading(false);
+    if (error) {
+      toast({ title: "Signup failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Account created!", description: "You're now signed in." });
+    navigate("/");
   };
 
   return (
@@ -38,14 +48,15 @@ const Signup = () => {
       </Link>
       <h2 className="text-3xl text-primary">Create Account</h2>
       <div className="flex flex-col gap-3 w-full max-w-sm">
-        <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <Button onClick={handleSignup} className="w-full">Signup</Button>
-        {token && (
-          <Button onClick={handleVerify} variant="secondary" className="w-full">
-            ✅ Verify Email
-          </Button>
-        )}
+        <Input placeholder="Display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+        <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Input placeholder="Password (min 6 chars)" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button onClick={handleSignup} disabled={loading} className="w-full">
+          {loading ? "Creating..." : "Sign up"}
+        </Button>
+        <p className="text-sm text-muted-foreground text-center">
+          Already have an account? <Link to="/login" className="text-primary underline">Log in</Link>
+        </p>
       </div>
     </div>
   );

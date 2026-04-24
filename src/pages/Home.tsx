@@ -1,12 +1,22 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Lock, Unlock, UserPlus, LogIn, Trophy, BookOpen, Gamepad2, Heart } from "lucide-react";
-import { levels, getUnlockedLevel } from "@/lib/levels";
-import { useState } from "react";
+import { Sparkles, Lock, Unlock, UserPlus, LogIn, LogOut, Trophy, BookOpen, Gamepad2, Heart, User } from "lucide-react";
+import { levels, getUnlockedLevel, loadProgressFromCloud } from "@/lib/levels";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Home = () => {
-  const [unlockedLevel] = useState(getUnlockedLevel);
+  const [unlockedLevel, setUnlockedLevel] = useState(getUnlockedLevel);
+  const { user, displayName, signOut, loading } = useAuth();
   const allComplete = unlockedLevel >= 6;
+
+  useEffect(() => {
+    if (user) {
+      loadProgressFromCloud().then((lvl) => {
+        if (lvl) setUnlockedLevel(lvl);
+      });
+    }
+  }, [user]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-8 p-6">
@@ -54,17 +64,32 @@ const Home = () => {
         </Link>
       )}
 
+      {user && (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <User className="h-4 w-4" /> Signed in as <strong className="text-foreground">{displayName ?? user.email}</strong>
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-3 mt-4 justify-center">
-        <Link to="/signup">
-          <Button variant="ghost" size="sm" className="gap-1">
-            <UserPlus className="h-4 w-4" /> Signup
+        {!loading && !user && (
+          <>
+            <Link to="/signup">
+              <Button variant="ghost" size="sm" className="gap-1">
+                <UserPlus className="h-4 w-4" /> Signup
+              </Button>
+            </Link>
+            <Link to="/login">
+              <Button variant="ghost" size="sm" className="gap-1">
+                <LogIn className="h-4 w-4" /> Login
+              </Button>
+            </Link>
+          </>
+        )}
+        {user && (
+          <Button variant="ghost" size="sm" className="gap-1" onClick={signOut}>
+            <LogOut className="h-4 w-4" /> Logout
           </Button>
-        </Link>
-        <Link to="/login">
-          <Button variant="ghost" size="sm" className="gap-1">
-            <LogIn className="h-4 w-4" /> Login
-          </Button>
-        </Link>
+        )}
         <Link to="/leaderboard">
           <Button variant="ghost" size="sm" className="gap-1">
             <Trophy className="h-4 w-4" /> Leaderboard

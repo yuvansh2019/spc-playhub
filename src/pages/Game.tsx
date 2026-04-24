@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { submitScore } from "@/lib/db";
 import { unlockLevel } from "@/lib/levels";
 import { Button } from "@/components/ui/button";
@@ -7,14 +7,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import SkipLevel from "@/components/SkipLevel";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Game = () => {
+  const { displayName } = useAuth();
   const [score, setScore] = useState(0);
   const [time, setTime] = useState(20);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const [won, setWon] = useState(false);
   const [name, setName] = useState("");
+  useEffect(() => { if (displayName) setName(displayName); }, [displayName]);
   const [tapping, setTapping] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeRef = useRef(20);
