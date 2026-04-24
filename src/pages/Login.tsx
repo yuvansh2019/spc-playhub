@@ -1,24 +1,30 @@
 import { useState } from "react";
-import { login } from "@/lib/db";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { loadProgressFromCloud } from "@/lib/levels";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleLogin = () => {
-    if (login(email, password)) {
-      toast({ title: "Login successful!" });
-      navigate("/game");
-    } else {
-      toast({ title: "Login failed", description: "Invalid credentials or unverified account.", variant: "destructive" });
+  const handleLogin = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+    if (error) {
+      toast({ title: "Login failed", description: error.message, variant: "destructive" });
+      return;
     }
+    await loadProgressFromCloud();
+    toast({ title: "Welcome back!" });
+    navigate("/");
   };
 
   return (
@@ -28,9 +34,14 @@ const Login = () => {
       </Link>
       <h2 className="text-3xl text-primary">Login</h2>
       <div className="flex flex-col gap-3 w-full max-w-sm">
-        <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Input placeholder="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <Button onClick={handleLogin} className="w-full">Login</Button>
+        <Button onClick={handleLogin} disabled={loading} className="w-full">
+          {loading ? "Logging in..." : "Login"}
+        </Button>
+        <p className="text-sm text-muted-foreground text-center">
+          No account? <Link to="/signup" className="text-primary underline">Sign up</Link>
+        </p>
       </div>
     </div>
   );
