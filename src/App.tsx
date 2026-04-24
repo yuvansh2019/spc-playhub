@@ -18,6 +18,7 @@ import QuizPlay from "./pages/QuizPlay";
 import EndlessRunner from "./pages/EndlessRunner";
 import CheatPanel from "./pages/CheatPanel";
 import FanPage from "./pages/FanPage";
+import AdminConsole from "./pages/AdminConsole";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
