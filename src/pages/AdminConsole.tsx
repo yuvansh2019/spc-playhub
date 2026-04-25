@@ -156,7 +156,7 @@ const AdminConsole = () => {
         <Shield className="h-16 w-16 text-muted-foreground" />
         <h2 className="text-2xl text-primary">Admin Console</h2>
         <p className="text-muted-foreground">You must be logged in.</p>
-        <Link to="/login"><Button>Log in</Button></Link>
+        <Link to="/login.page?redirect=/admin"><Button>Log in</Button></Link>
       </div>
     );
   }
