@@ -13,8 +13,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/go-to";
+  const goToAdmin = redirect === "/admin";
 
   const handleLogin = async () => {
     setLoading(true);
