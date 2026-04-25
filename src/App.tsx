@@ -19,6 +19,7 @@ import EndlessRunner from "./pages/EndlessRunner";
 import CheatPanel from "./pages/CheatPanel";
 import FanPage from "./pages/FanPage";
 import AdminConsole from "./pages/AdminConsole";
+import GoTo from "./pages/GoTo";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,8 @@ const App = () => (
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/login.page" element={<Login />} />
+            <Route path="/go-to" element={<GoTo />} />
             <Route path="/game" element={<Game />} />
             <Route path="/hard-math" element={<HardMath />} />
             <Route path="/apple-collector" element={<AppleCollector />} />

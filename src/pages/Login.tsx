@@ -2,7 +2,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { loadProgressFromCloud } from "@/lib/levels";
@@ -13,6 +13,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/go-to";
 
   const handleLogin = async () => {
     setLoading(true);
@@ -24,7 +26,7 @@ const Login = () => {
     }
     await loadProgressFromCloud();
     toast({ title: "Welcome back!" });
-    navigate("/");
+    navigate(redirect);
   };
 
   return (
